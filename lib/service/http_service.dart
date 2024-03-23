@@ -80,8 +80,18 @@ class Network {
   }
 /* Http Parsing */
 static List<Post> parsePostList(String response){
+  // print(response);
   dynamic json = jsonDecode(response);
-  var data = List<Post>.from(json.map ((x) => Post.fromJson(x)));
+
+  List list = [1, 2, 3];
+  var a = list.map((e) {
+    return "iuh";
+  }).toList();
+  print(a.toList());
+
+  var data = List<Post>.from(json.map((x) {
+    return Post.fromJson(x);
+  }));
   return data;
 }
 

@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String load = '';
-  bool? isLoading;
+  bool isLoading = false;
   var item = [];
 
   @override
@@ -31,20 +31,19 @@ class _HomePageState extends State<HomePage> {
             Container(
               color: Colors.grey[400],
               height: 450,
-              width: 350,
-              child: ListView(
-                  children: [
-                    Stack(
-                      children: [
-                        ListView.builder(
-                          itemCount: item.length,
-                          itemBuilder: (ctx, index){
-                            return itemHomePost(item[index]);
-                          },
-                        ),
-                      ],
-                    )
-                  ],
+              width: 400,
+              child: Stack(
+                children: [
+                  ListView.builder(
+                    itemCount: item.length,
+                    itemBuilder: (ctx, index){
+                      return itemHomePost(item[index]);
+                    },
+                  ),
+                  isLoading? const Center(
+                    child: CircularProgressIndicator( ),
+                  ) :const SizedBox.shrink(),
+                ],
               ),
             ),
             const SizedBox(height: 30),
@@ -107,8 +106,8 @@ class _HomePageState extends State<HomePage> {
     });
     var response = await Network.GET(Network.apiLIST, Network.paramsEmpty());
     if (response != null){
-     setState(() {});
      isLoading = false;
+     setState(() {});
      item = Network.parsePostList(response);
     }
   }
@@ -140,7 +139,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(post.title!)
+            Text(post.title!.toUpperCase(), style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold )),
+            const SizedBox(height: 5,),
+            Text(post.body!)
           ],
         ),
       ),
